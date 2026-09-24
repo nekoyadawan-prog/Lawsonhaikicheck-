@@ -52,44 +52,39 @@
     }
     .timer-container {
       flex: 1;
-      background: #e0e0e0;
-      border-radius: 10px;
       height: 20px;
-      overflow: hidden;
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .timer-bar {
       background: linear-gradient(90deg, #28a745, #ffc107, #dc3545);
       height: 100%;
       width: 100%;
+      border-radius: 10px;
       transition: width 0.1s linear;
     }
-    .no-timer-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 0 4px;
-    }
-    .no-timer-text {
-      font-size: 11px;
-      font-weight: bold;
-      color: #666;
-      line-height: 20px;
-    }
-    .skip-beginner-btn {
-      background: #ff9800;
+    
+    /* ド素人モード用の「簡単すぎ、もういい」ボタン */
+    .exit-beginner-btn {
+      background: linear-gradient(135deg, #ff4d4d, #cc0000);
       color: white;
       border: none;
-      font-size: 10px;
+      font-size: 13px;
       font-weight: bold;
-      padding: 2px 8px;
+      width: 100%;
+      height: 100%;
+      padding: 0 8px;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 6px rgba(220, 53, 69, 0.4);
       transition: transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
-    .skip-beginner-btn:active {
+    .exit-beginner-btn:active {
       transform: scale(0.95);
     }
 
@@ -491,7 +486,7 @@
       <div class="mode-btn-group">
         <button class="mode-btn btn-beginner-mode" onclick="startGame('beginner')">ド素人<br><small style="font-size:7.5px; font-weight:normal;">(時間無制限)</small></button>
         <button class="mode-btn btn-rookie-mode" onclick="startGame('rookie')">ルーキー<br><small style="font-size:7.5px; font-weight:normal;">(徐々に難化)</small></button>
-        <button class="mode-btn btn-veteran-mode" onclick="startGame('veteran')">熟練<br><small style="font-size:7.5px; font-weight:normal;">(最初から爆速)</small></button>
+        <button class="mode-btn btn-veteran-mode" onclick="startGame('veteran')">熟練<br><small style="font-size:7.5px; font-weight:normal;">(鬼速・高難度)</small></button>
       </div>
 
       <!-- 詳しいルール説明 -->
@@ -677,7 +672,6 @@
     return '熟練';
   }
 
-  // 多彩なぱっぱ掛け（総括コメント）を生成する関数
   function getCommentary(mode, finalScore, maxCombo, qCount) {
     if (mode === 'beginner') {
       if (qCount <= 3) {
@@ -693,7 +687,6 @@
       }
     }
 
-    // 熟練モードでの悲惨なスコア
     if (mode === 'veteran' && finalScore < 300) {
       return {
         title: "店長激怒：熟練のくせに情けない！",
@@ -701,7 +694,6 @@
       };
     }
 
-    // 高コンボ達成者の称賛
     if (maxCombo >= 10) {
       return {
         title: "店長大絶賛：神業チェッカー降臨！",
@@ -709,7 +701,6 @@
       };
     }
 
-    // すぐゲームオーバーになった場合（早押ししすぎ・焦りすぎ）
     if (qCount <= 3) {
       return {
         title: "店長のため息：早押し癖が災いしたな",
@@ -717,7 +708,6 @@
       };
     }
 
-    // 中堅スコア・そこそこ頑張った人
     if (finalScore >= 1200) {
       return {
         title: "店長のお墨付き：なかなかの名店員！",
@@ -725,7 +715,6 @@
       };
     }
 
-    // 標準的なお叱り・励まし
     const funnyComments = [
       {
         title: "店長の一言：うっかりミス多すぎ！",
@@ -832,10 +821,7 @@
     const timerContainer = document.getElementById('timer-container');
     if (currentMode === 'beginner') {
       timerContainer.innerHTML = `
-        <div class="no-timer-wrapper">
-          <span class="no-timer-text">⏱️ 時間無制限</span>
-          <button class="skip-beginner-btn" onclick="endGame()">もう十分わかった！</button>
-        </div>
+        <button class="exit-beginner-btn" onclick="endGame()">🚪 簡単すぎ、もういい</button>
       `;
     } else {
       timerContainer.innerHTML = '<div class="timer-bar" id="timer-bar"></div>';
@@ -855,7 +841,9 @@
           if (bar) bar.style.width = `${Math.max(0, percent)}%`;
 
           if (timeLeft <= 0) {
-            handleMistake("時間切れ！");
+            isProcessing = true;
+            setButtonsDisabled(true);
+            handleMistake("⏰ 時間切れ！");
           }
         }
       }, 100);
@@ -870,16 +858,13 @@
 
     document.getElementById('score-board').style.display = 'none';
 
-    // リザルト画面にスコア・コンボを反映
     document.getElementById('final-score-display').innerText = `${score} pt`;
     document.getElementById('final-combo-display').innerText = `最大コンボ: ${maxCombo} COMBO`;
 
-    // ぱっぱ掛け（総括コメント）を設定
     const commentary = getCommentary(currentMode, score, maxCombo, questionCount);
     document.getElementById('commentary-title').innerText = commentary.title;
     document.getElementById('commentary-text').innerText = commentary.text;
 
-    // リザルトオーバーレイを表示
     const overlay = document.getElementById('overlay-main');
     overlay.style.display = 'flex';
     document.getElementById('screen-title').style.display = 'none';
@@ -910,14 +895,14 @@
       isLongTermItem = !!item.isLongTerm;
       currentMaxTime = 999;
     } else if (currentMode === 'veteran') {
-      if (Math.random() < 0.20) {
+      if (Math.random() < 0.35) {
         item = longTermPool[Math.floor(Math.random() * longTermPool.length)];
       } else {
         item = standardPool[Math.floor(Math.random() * standardPool.length)];
       }
       isDesert = !!item.isDesert;
       isLongTermItem = !!item.isLongTerm;
-      currentMaxTime = isDesert ? 2.2 : 4.0;
+      currentMaxTime = isDesert ? 1.5 : (isLongTermItem ? 1.8 : 2.5);
     } else {
       if (questionCount > 5 && Math.random() < 0.25) {
         item = longTermPool[Math.floor(Math.random() * longTermPool.length)];
