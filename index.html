@@ -263,7 +263,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 10;
-      padding: 20px 16px;
+      padding: 16px 12px;
       overflow-y: auto;
     }
     .overlay.hidden {
@@ -309,12 +309,12 @@
     .mode-btn-group {
       display: flex;
       gap: 6px;
-      margin: 8px 0;
+      margin: 6px 0;
       width: 100%;
     }
     .mode-btn {
       flex: 1;
-      padding: 10px 2px;
+      padding: 8px 2px;
       font-size: 13px;
       border-radius: 10px;
       line-height: 1.3;
@@ -324,47 +324,93 @@
     .btn-rookie-mode { background: #28a745; }
     .btn-veteran-mode { background: #e91e63; }
 
+    /* リザルト画面専用スタイル */
+    .result-score-box {
+      background: rgba(0, 0, 0, 0.88);
+      border: 2px solid #ffcc00;
+      border-radius: 12px;
+      padding: 12px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .result-score-num {
+      font-size: 32px;
+      font-weight: bold;
+      color: #ffcc00;
+      margin: 4px 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+
+    /* ぱっぱ掛け（総括コメント）ボックス */
+    .commentary-card {
+      background: rgba(255, 255, 255, 0.92);
+      color: #111;
+      border-radius: 10px;
+      padding: 10px 12px;
+      width: 100%;
+      margin-bottom: 10px;
+      text-align: left;
+      border-left: 5px solid #ff4d4d;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .commentary-title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #d9534f;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .commentary-text {
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1.45;
+      color: #222;
+    }
+
     /* 難易度選択画面用のルール＆ランキングスタイル */
     .rule-box-compact {
       background: rgba(0, 0, 0, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 10px;
-      padding: 8px 12px;
+      border-radius: 8px;
+      padding: 6px 10px;
       width: 100%;
       text-align: left;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .rule-box-compact h3 {
-      margin: 0 0 4px 0;
-      font-size: 12px;
+      margin: 0 0 2px 0;
+      font-size: 11px;
       color: #ffcc00;
       text-align: center;
     }
     .rule-box-compact ul {
       margin: 0;
-      padding-left: 16px;
-      font-size: 10px;
-      line-height: 1.35;
+      padding-left: 14px;
+      font-size: 9.5px;
+      line-height: 1.3;
       color: #eee;
     }
 
     .ranking-grid-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 6px;
       width: 100%;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .ranking-column {
       background: rgba(0, 0, 0, 0.8);
       border-radius: 8px;
-      padding: 6px 6px;
+      padding: 5px 6px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       text-align: left;
     }
     .ranking-column h4 {
-      margin: 0 0 4px 0;
-      font-size: 11px;
+      margin: 0 0 3px 0;
+      font-size: 10px;
       text-align: center;
       color: #ffc107;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -374,7 +420,8 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      font-size: 10px;
+      font-size: 9px;
+      min-height: 55px;
     }
     .ranking-mini-list li {
       display: flex;
@@ -382,16 +429,21 @@
       padding: 1px 0;
       color: #fff;
     }
+    .ranking-date {
+      color: #aaa;
+      font-size: 8px;
+      margin-left: 4px;
+    }
 
     .back-text-btn {
       background: rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.4);
       color: #fff;
       font-size: 11px;
-      padding: 6px 12px;
+      padding: 5px 12px;
       border-radius: 15px;
       cursor: pointer;
-      margin-top: 4px;
+      margin-top: 2px;
       box-shadow: none;
     }
     .back-text-btn:hover {
@@ -402,7 +454,7 @@
 <body>
 
 <div class="game-card">
-  <!-- メインタイトル＆モード選択＆スコア画面オーバーレイ -->
+  <!-- メインタイトル＆モード選択＆リザルト＆ランキング画面オーバーレイ -->
   <div class="overlay" id="overlay-main">
     <div class="fullscreen-bg-box">
       <img src="title.png" alt="背景イラスト" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 300\'><rect width=\'300\' height=\'300\' fill=\'%230d1b2a\'/><circle cx=\'150\' cy=\'120\' r=\'50\' fill=\'%23ffdbac\'/><text x=\'150\' y=\'220\' font-size=\'20\' font-weight=\'bold\' fill=\'%23ff4d4d\' text-anchor=\'middle\'>廃棄チェッカー</text></svg>';">
@@ -413,21 +465,40 @@
       <button class="big-start-btn" onclick="showModeSelect()">ゲームスタート</button>
     </div>
 
-    <!-- ステップ2: 難易度選択・ルール・ルーキー/熟練ランキング画面 -->
-    <div class="screen-container" id="screen-mode" style="display: none; justify-content: flex-start; padding-top: 5px;">
-      <h2 style="font-size: 14px; color: #ffcc00; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">難易度を選んでスタート</h2>
+    <!-- ステップ1.5: 今回の結果発表画面（ぱっぱ掛け付き） -->
+    <div class="screen-container" id="screen-result" style="display: none; justify-content: flex-start; padding-top: 8px;">
+      <h2 style="font-size: 15px; color: #ff4d4d; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">ゲームオーバー！</h2>
+      
+      <div class="result-score-box">
+        <div style="font-size: 11px; color: #ccc;">今回のスコア</div>
+        <div class="result-score-num" id="final-score-display">0 pt</div>
+        <div style="font-size: 11px; color: #fff;" id="final-combo-display">最大コンボ: 0 COMBO</div>
+      </div>
+
+      <!-- 辛口・ユーモアたっぷりのぱっぱ掛け（総括コメント） -->
+      <div class="commentary-card" id="commentary-card">
+        <div class="commentary-title" id="commentary-title">店長からの総括</div>
+        <div class="commentary-text" id="commentary-text">コメント読み込み中...</div>
+      </div>
+
+      <button class="big-start-btn" onclick="showModeSelectFromResult()" style="font-size: 15px; padding: 12px; margin-top: 2px;">ランキングを見る ➔</button>
+    </div>
+
+    <!-- ステップ2: 難易度選択・ルール・ランキング画面 -->
+    <div class="screen-container" id="screen-mode" style="display: none; justify-content: flex-start; padding-top: 2px;">
+      <h2 style="font-size: 13px; color: #ffcc00; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">難易度を選んでスタート</h2>
       
       <div class="mode-btn-group">
-        <button class="mode-btn btn-beginner-mode" onclick="startGame('beginner')">ド素人<br><small style="font-size:8px; font-weight:normal;">(時間無制限)</small></button>
-        <button class="mode-btn btn-rookie-mode" onclick="startGame('rookie')">ルーキー<br><small style="font-size:8px; font-weight:normal;">(徐々に難化)</small></button>
-        <button class="mode-btn btn-veteran-mode" onclick="startGame('veteran')">熟練<br><small style="font-size:8px; font-weight:normal;">(最初から爆速)</small></button>
+        <button class="mode-btn btn-beginner-mode" onclick="startGame('beginner')">ド素人<br><small style="font-size:7.5px; font-weight:normal;">(時間無制限)</small></button>
+        <button class="mode-btn btn-rookie-mode" onclick="startGame('rookie')">ルーキー<br><small style="font-size:7.5px; font-weight:normal;">(徐々に難化)</small></button>
+        <button class="mode-btn btn-veteran-mode" onclick="startGame('veteran')">熟練<br><small style="font-size:7.5px; font-weight:normal;">(最初から爆速)</small></button>
       </div>
 
       <!-- 詳しいルール説明 -->
       <div class="rule-box-compact">
         <h3>📖 遊び方・ルール</h3>
         <ul>
-          <li><strong>プライスカードの右下のマイナス表示（例：<span style="color:#ff6b6b;">-010</span>）</strong>をよく見て！賞味期限からその日数を引いた日が廃棄日です。</li>
+          <li><strong>プライスカード右下のマイナス表示（例：<span style="color:#ff6b6b;">-010</span>）</strong>をチェック！賞味期限からその日数を引いた日が廃棄日。</li>
           <li>ライフ2個で終了。今日が廃棄日なら「アウト」、未来なら「セーフ」、過去なら「落とし忘れ」！</li>
         </ul>
       </div>
@@ -606,32 +677,109 @@
     return '熟練';
   }
 
+  // 多彩なぱっぱ掛け（総括コメント）を生成する関数
+  function getCommentary(mode, finalScore, maxCombo, qCount) {
+    if (mode === 'beginner') {
+      if (qCount <= 3) {
+        return {
+          title: "店長からの温かいお言葉",
+          text: "まだ始めたばかりだし、こんなもんさ！時間無制限だから、じっくりプライスカードの計算を練習してまた挑もうぜ！"
+        };
+      } else {
+        return {
+          title: "店長からのアドバイス",
+          text: "お疲れ様！マイナス日数の計算にだんだん慣れてきたみたいだな。次は「ルーキーモード」でタイマー付きに挑戦してみないか？"
+        };
+      }
+    }
+
+    // 熟練モードでの悲惨なスコア
+    if (mode === 'veteran' && finalScore < 300) {
+      return {
+        title: "店長激怒：熟練のくせに情けない！",
+        text: "おいおい、一番上の『熟練』を選んでおいてこのスコアかよ！看板背負ってるプライドはどこへ行ったんだ！出直してきやがれ！"
+      };
+    }
+
+    // 高コンボ達成者の称賛
+    if (maxCombo >= 10) {
+      return {
+        title: "店長大絶賛：神業チェッカー降臨！",
+        text: `すげぇ！脅威の ${maxCombo}連続コンボを達成！君の電卓並みの高速頭脳と鋭い眼光は、もはやエリアマネージャー級だ！素晴らしい！`
+      };
+    }
+
+    // すぐゲームオーバーになった場合（早押ししすぎ・焦りすぎ）
+    if (qCount <= 3) {
+      return {
+        title: "店長のため息：早押し癖が災いしたな",
+        text: "ちょっと待て！焦ってボタン連打しすぎだろ！賞味期限とマイナス数値をちゃんと見比べないと、廃棄の山に埋もれるぞ！落ち着け！"
+      };
+    }
+
+    // 中堅スコア・そこそこ頑張った人
+    if (finalScore >= 1200) {
+      return {
+        title: "店長のお墨付き：なかなかの名店員！",
+        text: `お見事！スコア ${finalScore}pt は伊達じゃないな。売場のロスをしっかり防ぐ優秀なスタッフだ。次はトップランカーを目指せ！`
+      };
+    }
+
+    // 標準的なお叱り・励まし
+    const funnyComments = [
+      {
+        title: "店長の一言：うっかりミス多すぎ！",
+        text: "惜しかったな！でも『落とし忘れ』の判断で慌てすぎだ。過去の日付を見逃すなんて、バックヤードで反省のし直しだな！"
+      },
+      {
+        title: "店長のゲキ：まだまだ修行が足りん！",
+        text: "Uchi Caféのデザートの罠に引っかかったか？あいつらは足が早いんだから気を抜いちゃダメだ。もう一回リベンジだ！"
+      },
+      {
+        title: "店長のお説教：レジ打ちの方が得意か？",
+        text: `スコア ${finalScore}ptか…。悪くはないが、君のポテンシャルならもっとやれるはずだ！次は全問正解を期待してるぞ！`
+      }
+    ];
+
+    return funnyComments[Math.floor(Math.random() * funnyComments.length)];
+  }
+
   function loadAllRankings() {
     ['rookie', 'veteran'].forEach(m => {
-      const scores = JSON.parse(localStorage.getItem(`lawson_scores_${m}`) || '[]');
+      let records = JSON.parse(localStorage.getItem(`lawson_scores_${m}`) || '[]');
+      records = records.map(r => typeof r === 'object' ? r : { score: r, date: '' });
+      records.sort((a, b) => b.score - a.score);
+      
       const listEl = document.getElementById(`rank-list-${m}`);
       if (!listEl) return;
       
       listEl.innerHTML = '';
-      if (scores.length === 0) {
-        listEl.innerHTML = '<li><span>-</span><span>なし</span></li>';
-        return;
-      }
-      scores.slice(0, 5).forEach((s, idx) => {
+      for (let i = 0; i < 5; i++) {
         const li = document.createElement('li');
-        li.innerHTML = `<span>${idx+1}.</span><span><strong>${s}</strong></span>`;
+        if (i < records.length) {
+          const rec = records[i];
+          li.innerHTML = `<span>${i+1}. <strong>${rec.score}pt</strong></span><span class="ranking-date">${rec.date || ''}</span>`;
+        } else {
+          li.innerHTML = `<span>${i+1}. ---</span><span class="ranking-date"></span>`;
+        }
         listEl.appendChild(li);
-      });
+      }
     });
   }
 
   function saveScore(mode, newScore) {
     if (mode === 'beginner' || newScore <= 0) return;
-    let scores = JSON.parse(localStorage.getItem(`lawson_scores_${mode}`) || '[]');
-    scores.push(newScore);
-    scores.sort((a, b) => b - a);
-    scores = scores.slice(0, 5);
-    localStorage.setItem(`lawson_scores_${mode}`, JSON.stringify(scores));
+    let records = JSON.parse(localStorage.getItem(`lawson_scores_${mode}`) || '[]');
+    records = records.map(r => typeof r === 'object' ? r : { score: r, date: '' });
+
+    const now = new Date();
+    const dateStr = `${now.getMonth() + 1}/${now.getDate()}`;
+    
+    records.push({ score: newScore, date: dateStr });
+    records.sort((a, b) => b.score - a.score);
+    records = records.slice(0, 5);
+    
+    localStorage.setItem(`lawson_scores_${mode}`, JSON.stringify(records));
   }
 
   function updateLivesUI() {
@@ -646,11 +794,19 @@
     initAudio();
     loadAllRankings();
     document.getElementById('screen-title').style.display = 'none';
+    document.getElementById('screen-result').style.display = 'none';
+    document.getElementById('screen-mode').style.display = 'flex';
+  }
+
+  function showModeSelectFromResult() {
+    loadAllRankings();
+    document.getElementById('screen-result').style.display = 'none';
     document.getElementById('screen-mode').style.display = 'flex';
   }
 
   function showTitleScreen() {
     document.getElementById('screen-mode').style.display = 'none';
+    document.getElementById('screen-result').style.display = 'none';
     document.getElementById('screen-title').style.display = 'flex';
   }
 
@@ -708,15 +864,27 @@
 
   function endGame() {
     clearInterval(timerInterval);
-    saveScore(currentMode, score);
-    loadAllRankings();
+    if (currentMode !== 'beginner') {
+      saveScore(currentMode, score);
+    }
 
     document.getElementById('score-board').style.display = 'none';
 
+    // リザルト画面にスコア・コンボを反映
+    document.getElementById('final-score-display').innerText = `${score} pt`;
+    document.getElementById('final-combo-display').innerText = `最大コンボ: ${maxCombo} COMBO`;
+
+    // ぱっぱ掛け（総括コメント）を設定
+    const commentary = getCommentary(currentMode, score, maxCombo, questionCount);
+    document.getElementById('commentary-title').innerText = commentary.title;
+    document.getElementById('commentary-text').innerText = commentary.text;
+
+    // リザルトオーバーレイを表示
     const overlay = document.getElementById('overlay-main');
     overlay.style.display = 'flex';
     document.getElementById('screen-title').style.display = 'none';
-    document.getElementById('screen-mode').style.display = 'flex';
+    document.getElementById('screen-mode').style.display = 'none';
+    document.getElementById('screen-result').style.display = 'flex';
   }
 
   function setButtonsDisabled(disabled) {
