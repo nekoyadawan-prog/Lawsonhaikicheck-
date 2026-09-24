@@ -64,12 +64,35 @@
       width: 100%;
       transition: width 0.1s linear;
     }
+    .no-timer-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 4px;
+    }
     .no-timer-text {
       font-size: 11px;
       font-weight: bold;
       color: #666;
       line-height: 20px;
     }
+    .skip-beginner-btn {
+      background: #ff9800;
+      color: white;
+      border: none;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      transition: transform 0.1s;
+    }
+    .skip-beginner-btn:active {
+      transform: scale(0.95);
+    }
+
     .lives-display {
       font-size: 18px;
       letter-spacing: 2px;
@@ -233,15 +256,18 @@
     .overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(13, 27, 42, 0.82);
+      background: rgba(13, 27, 42, 0.45);
       color: white;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
       z-index: 10;
-      padding: 24px 16px;
+      padding: 20px 16px;
       overflow-y: auto;
+    }
+    .overlay.hidden {
+      display: none !important;
     }
 
     .fullscreen-bg-box {
@@ -254,7 +280,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(0.45) blur(1px);
+      filter: brightness(0.75);
     }
 
     .screen-container {
@@ -266,44 +292,11 @@
       z-index: 2;
     }
 
-    .title-main-title {
-      font-size: 24px;
-      font-weight: bold;
-      color: #ffcc00;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-      margin: 0 0 2px 0;
-      letter-spacing: 1px;
-    }
-
-    .rule-box {
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      padding: 10px 14px;
-      width: 100%;
-      text-align: left;
-      margin-top: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-    .rule-box h3 {
-      margin: 0 0 4px 0;
-      font-size: 13px;
-      color: #00bfff;
-      text-align: center;
-    }
-    .rule-box ul {
-      margin: 0;
-      padding-left: 18px;
-      font-size: 11px;
-      line-height: 1.4;
-      color: #eee;
-    }
-
     .big-start-btn {
       background: linear-gradient(135deg, #ff9800, #e91e63);
       color: white;
-      font-size: 20px;
-      padding: 16px 32px;
+      font-size: 18px;
+      padding: 14px 28px;
       border-radius: 30px;
       font-weight: bold;
       width: 100%;
@@ -311,25 +304,17 @@
       box-shadow: 0 6px 20px rgba(233, 30, 99, 0.5);
       cursor: pointer;
       border: 2px solid #fff;
-      margin-top: auto;
-      animation: pulse 1.5s infinite;
-      z-index: 2;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.04); }
-      100% { transform: scale(1.01); }
     }
 
     .mode-btn-group {
       display: flex;
       gap: 6px;
-      margin: 10px 0;
+      margin: 8px 0;
       width: 100%;
     }
     .mode-btn {
       flex: 1;
-      padding: 12px 4px;
+      padding: 10px 2px;
       font-size: 13px;
       border-radius: 10px;
       line-height: 1.3;
@@ -339,88 +324,128 @@
     .btn-rookie-mode { background: #28a745; }
     .btn-veteran-mode { background: #e91e63; }
 
-    .ranking-box {
-      background: rgba(0, 0, 0, 0.65);
+    /* 難易度選択画面用のルール＆ランキングスタイル */
+    .rule-box-compact {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 10px;
       padding: 8px 12px;
       width: 100%;
-      margin-top: 5px;
       text-align: left;
-      border: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 8px;
     }
-    .ranking-box h3 {
+    .rule-box-compact h3 {
       margin: 0 0 4px 0;
       font-size: 12px;
+      color: #ffcc00;
+      text-align: center;
+    }
+    .rule-box-compact ul {
+      margin: 0;
+      padding-left: 16px;
+      font-size: 10px;
+      line-height: 1.35;
+      color: #eee;
+    }
+
+    .ranking-grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    .ranking-column {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      padding: 6px 4px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: left;
+    }
+    .ranking-column h4 {
+      margin: 0 0 4px 0;
+      font-size: 11px;
       text-align: center;
       color: #ffc107;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 2px;
     }
-    .ranking-list {
+    .ranking-mini-list {
       list-style: none;
       padding: 0;
       margin: 0;
-      font-size: 11px;
+      font-size: 10px;
     }
-    .ranking-list li {
+    .ranking-mini-list li {
       display: flex;
       justify-content: space-between;
       padding: 1px 0;
-      border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+      color: #fff;
     }
-    
+
     .back-text-btn {
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #fff;
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 15px;
       cursor: pointer;
-      margin-top: 8px;
-      text-decoration: underline;
+      margin-top: 4px;
       box-shadow: none;
     }
     .back-text-btn:hover {
-      color: #fff;
+      background: rgba(0, 0, 0, 0.85);
     }
   </style>
 </head>
 <body>
 
 <div class="game-card">
-  <!-- オーバーレイ画面 -->
-  <div class="overlay" id="overlay">
+  <!-- メインタイトル＆モード選択＆スコア画面オーバーレイ -->
+  <div class="overlay" id="overlay-main">
     <div class="fullscreen-bg-box">
       <img src="title.png" alt="背景イラスト" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 300\'><rect width=\'300\' height=\'300\' fill=\'%230d1b2a\'/><circle cx=\'150\' cy=\'120\' r=\'50\' fill=\'%23ffdbac\'/><text x=\'150\' y=\'220\' font-size=\'20\' font-weight=\'bold\' fill=\'%23ff4d4d\' text-anchor=\'middle\'>廃棄チェッカー</text></svg>';">
     </div>
 
-    <!-- ステップ1: タイトル＆ルール画面 -->
-    <div class="screen-container" id="screen-title">
-      <h1 class="title-main-title">ローソン廃棄チェッカー</h1>
-      <p style="font-size: 11px; color: #ddd; margin: 0;">期限切れの危機を回避せよ！コンビニ店員バイトシミュレーター</p>
-      
-      <div class="rule-box">
-        <h3>📖 基本ルール</h3>
-        <ul>
-          <li>ライフは2個！2回ミスでゲームオーバー。</li>
-          <li>商品の引き落とし日（例: -010なら賞味期限の10日前）を見極めよう。</li>
-          <li>当日なら「アウト！今日廃棄」、未来なら「セーフ」、過ぎていたら「落とし忘れ」！</li>
-        </ul>
-      </div>
+    <!-- ステップ1: シンプルなタイトル画面 -->
+    <div class="screen-container" id="screen-title" style="justify-content: flex-start; padding-top: 15px;">
+      <button class="big-start-btn" onclick="showModeSelect()">ゲームスタート</button>
     </div>
 
-    <button class="big-start-btn" id="main-start-btn" onclick="showModeSelect()">ゲームスタート</button>
-
-    <!-- ステップ2: 難易度選択＆ランキング画面 -->
-    <div class="screen-container" id="screen-mode" style="display: none;">
-      <h2 style="font-size: 16px; color: #ffcc00; margin: 0 0 8px 0;">難易度を選んでください</h2>
+    <!-- ステップ2: 難易度選択・ルール・全モードスコア画面 -->
+    <div class="screen-container" id="screen-mode" style="display: none; justify-content: flex-start; padding-top: 5px;">
+      <h2 style="font-size: 14px; color: #ffcc00; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">難易度を選んでスタート</h2>
       
       <div class="mode-btn-group">
-        <button class="mode-btn btn-beginner-mode" onclick="startGame('beginner')" onmouseenter="loadHighScores('beginner')">ド素人<br><small style="font-size:9px; font-weight:normal;">(時間無制限)</small></button>
-        <button class="mode-btn btn-rookie-mode" onclick="startGame('rookie')" onmouseenter="loadHighScores('rookie')">ルーキー<br><small style="font-size:9px; font-weight:normal;">(徐々に難化)</small></button>
-        <button class="mode-btn btn-veteran-mode" onclick="startGame('veteran')" onmouseenter="loadHighScores('veteran')">熟練<br><small style="font-size:9px; font-weight:normal;">(最初から爆速)</small></button>
+        <button class="mode-btn btn-beginner-mode" onclick="startGame('beginner')">ド素人<br><small style="font-size:8px; font-weight:normal;">(時間無制限)</small></button>
+        <button class="mode-btn btn-rookie-mode" onclick="startGame('rookie')">ルーキー<br><small style="font-size:8px; font-weight:normal;">(徐々に難化)</small></button>
+        <button class="mode-btn btn-veteran-mode" onclick="startGame('veteran')">熟練<br><small style="font-size:8px; font-weight:normal;">(最初から爆速)</small></button>
       </div>
 
-      <div class="ranking-box">
-        <h3 id="ranking-title">🏆 BEST 5 (ルーキー)</h3>
-        <ol class="ranking-list" id="ranking-list"></ol>
+      <!-- 詳しいルール説明 -->
+      <div class="rule-box-compact">
+        <h3>📖 遊び方・ルール</h3>
+        <ul>
+          <li><strong>プライスカードの右下のマイナス表示（例：<span style="color:#ff6b6b;">-010</span>）</strong>をよく見て！賞味期限からその日数を引いた日が廃棄日です。</li>
+          <li>ライフ2個で終了。今日が廃棄日なら「アウト」、未来なら「セーフ」、過去なら「落とし忘れ」！</li>
+        </ul>
+      </div>
+
+      <!-- 3モード一画面トップ5ランキング -->
+      <div class="ranking-grid-container">
+        <div class="ranking-column">
+          <h4>ド素人</h4>
+          <ul class="ranking-mini-list" id="rank-list-beginner"></ul>
+        </div>
+        <div class="ranking-column">
+          <h4>ルーキー</h4>
+          <ul class="ranking-mini-list" id="rank-list-rookie"></ul>
+        </div>
+        <div class="ranking-column">
+          <h4>熟練</h4>
+          <ul class="ranking-mini-list" id="rank-list-veteran"></ul>
+        </div>
       </div>
 
       <button class="back-text-btn" onclick="showTitleScreen()">◀ タイトルに戻る</button>
@@ -585,34 +610,27 @@
     return '熟練';
   }
 
-  function loadHighScores(mode) {
-    currentMode = mode;
-    const scores = JSON.parse(localStorage.getItem(`lawson_scores_${mode}`) || '[]');
-    const listEl = document.getElementById('ranking-list');
-    const titleEl = document.getElementById('ranking-title');
-    
-    if (titleEl) {
-      titleEl.innerText = `🏆 BEST 5 (${getModeName(mode)})`;
-    }
-    
-    if (!listEl) return;
-    listEl.innerHTML = '';
-    
-    if (scores.length === 0) {
-      listEl.innerHTML = '<li><span>-</span> <span>記録なし</span></li>';
-      return;
-    }
-
-    scores.slice(0, 5).forEach((s, idx) => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span>${idx + 1}位</span> <span><strong>${s}</strong> pt</span>`;
-      listEl.appendChild(li);
+  function loadAllRankings() {
+    ['beginner', 'rookie', 'veteran'].forEach(m => {
+      const scores = JSON.parse(localStorage.getItem(`lawson_scores_${m}`) || '[]');
+      const listEl = document.getElementById(`rank-list-${m}`);
+      if (!listEl) return;
+      
+      listEl.innerHTML = '';
+      if (scores.length === 0) {
+        listEl.innerHTML = '<li><span>-</span><span>なし</span></li>';
+        return;
+      }
+      scores.slice(0, 5).forEach((s, idx) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${idx+1}.</span><span><strong>${s}</strong></span>`;
+        listEl.appendChild(li);
+      });
     });
   }
 
   function saveScore(mode, newScore) {
     if (newScore <= 0) return;
-
     let scores = JSON.parse(localStorage.getItem(`lawson_scores_${mode}`) || '[]');
     scores.push(newScore);
     scores.sort((a, b) => b - a);
@@ -630,16 +648,14 @@
 
   function showModeSelect() {
     initAudio();
+    loadAllRankings();
     document.getElementById('screen-title').style.display = 'none';
     document.getElementById('screen-mode').style.display = 'flex';
-    document.getElementById('main-start-btn').style.display = 'none';
-    loadHighScores('rookie');
   }
 
   function showTitleScreen() {
     document.getElementById('screen-mode').style.display = 'none';
     document.getElementById('screen-title').style.display = 'flex';
-    document.getElementById('main-start-btn').style.display = 'block';
   }
 
   function startGame(mode) {
@@ -653,12 +669,17 @@
     
     document.getElementById('score').innerText = '0';
     document.getElementById('score-board').style.display = 'flex';
-    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('overlay-main').style.display = 'none';
     document.getElementById('header-title').innerText = `廃棄チェッカー (${getModeName(mode)})`;
     
     const timerContainer = document.getElementById('timer-container');
     if (currentMode === 'beginner') {
-      timerContainer.innerHTML = '<div class="no-timer-text">⏱️ 時間無制限</div>';
+      timerContainer.innerHTML = `
+        <div class="no-timer-wrapper">
+          <span class="no-timer-text">⏱️ 時間無制限</span>
+          <button class="skip-beginner-btn" onclick="endGame()">もう十分わかった！</button>
+        </div>
+      `;
     } else {
       timerContainer.innerHTML = '<div class="timer-bar" id="timer-bar"></div>';
     }
@@ -687,25 +708,14 @@
   function endGame() {
     clearInterval(timerInterval);
     saveScore(currentMode, score);
+    loadAllRankings();
 
     document.getElementById('score-board').style.display = 'none';
 
-    const overlay = document.getElementById('overlay');
-    overlay.innerHTML = `
-      <div class="fullscreen-bg-box">
-        <img src="title.png" alt="背景イラスト" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 300\'><rect width=\'300\' height=\'300\' fill=\'%230d1b2a\'/><circle cx=\'150\' cy=\'120\' r=\'50\' fill=\'%23ffdbac\'/><text x=\'150\' y=\'220\' font-size=\'20\' font-weight=\'bold\' fill=\'%23ff4d4d\' text-anchor=\'middle\'>廃棄チェッカー</text></svg>';">
-      </div>
-      <div class="screen-container" style="margin: auto;">
-        <h1 style="color:#ff4d4d; font-size:22px; margin:10px 0;">GAME OVER</h1>
-        <div style="background:rgba(0,0,0,0.7); padding:12px; border-radius:10px; margin-bottom:15px; width:100%;">
-          <p style="font-size:15px; margin:2px 0;">最終スコア: <strong>${score} pt</strong></p>
-          <p style="font-size:11px; margin:2px 0; color:#aaa;">到達問数: <strong>${questionCount}問</strong> (最大${maxCombo}コンボ)</p>
-        </div>
-      </div>
-      <button class="big-start-btn" onclick="location.reload()">タイトルに戻る</button>
-    `;
-
+    const overlay = document.getElementById('overlay-main');
     overlay.style.display = 'flex';
+    document.getElementById('screen-title').style.display = 'none';
+    document.getElementById('screen-mode').style.display = 'flex';
   }
 
   function setButtonsDisabled(disabled) {
@@ -870,13 +880,6 @@
     } else {
       handleMistake("❌ 不正解…");
     }
-  }
-
-  if (!localStorage.getItem('lawson_score_cleaned_v2')) {
-    localStorage.removeItem('lawson_scores_beginner');
-    localStorage.removeItem('lawson_scores_rookie');
-    localStorage.removeItem('lawson_scores_veteran');
-    localStorage.setItem('lawson_score_cleaned_v2', 'true');
   }
 </script>
 
