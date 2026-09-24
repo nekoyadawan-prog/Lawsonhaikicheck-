@@ -350,15 +350,15 @@
 
     .ranking-grid-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
       width: 100%;
       margin-bottom: 8px;
     }
     .ranking-column {
       background: rgba(0, 0, 0, 0.8);
       border-radius: 8px;
-      padding: 6px 4px;
+      padding: 6px 6px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       text-align: left;
     }
@@ -413,7 +413,7 @@
       <button class="big-start-btn" onclick="showModeSelect()">ゲームスタート</button>
     </div>
 
-    <!-- ステップ2: 難易度選択・ルール・全モードスコア画面 -->
+    <!-- ステップ2: 難易度選択・ルール・ルーキー/熟練ランキング画面 -->
     <div class="screen-container" id="screen-mode" style="display: none; justify-content: flex-start; padding-top: 5px;">
       <h2 style="font-size: 14px; color: #ffcc00; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">難易度を選んでスタート</h2>
       
@@ -432,12 +432,8 @@
         </ul>
       </div>
 
-      <!-- 3モード一画面トップ5ランキング -->
+      <!-- 2モード（ルーキー・熟練）ランキング -->
       <div class="ranking-grid-container">
-        <div class="ranking-column">
-          <h4>ド素人</h4>
-          <ul class="ranking-mini-list" id="rank-list-beginner"></ul>
-        </div>
         <div class="ranking-column">
           <h4>ルーキー</h4>
           <ul class="ranking-mini-list" id="rank-list-rookie"></ul>
@@ -611,7 +607,7 @@
   }
 
   function loadAllRankings() {
-    ['beginner', 'rookie', 'veteran'].forEach(m => {
+    ['rookie', 'veteran'].forEach(m => {
       const scores = JSON.parse(localStorage.getItem(`lawson_scores_${m}`) || '[]');
       const listEl = document.getElementById(`rank-list-${m}`);
       if (!listEl) return;
@@ -630,7 +626,7 @@
   }
 
   function saveScore(mode, newScore) {
-    if (newScore <= 0) return;
+    if (mode === 'beginner' || newScore <= 0) return;
     let scores = JSON.parse(localStorage.getItem(`lawson_scores_${mode}`) || '[]');
     scores.push(newScore);
     scores.sort((a, b) => b - a);
@@ -667,8 +663,13 @@
     questionCount = 0;
     isProcessing = false;
     
-    document.getElementById('score').innerText = '0';
-    document.getElementById('score-board').style.display = 'flex';
+    if (currentMode === 'beginner') {
+      document.getElementById('score-board').style.display = 'none';
+    } else {
+      document.getElementById('score').innerText = '0';
+      document.getElementById('score-board').style.display = 'flex';
+    }
+
     document.getElementById('overlay-main').style.display = 'none';
     document.getElementById('header-title').innerText = `廃棄チェッカー (${getModeName(mode)})`;
     
@@ -868,14 +869,17 @@
       const baseEarned = isLongTermItem ? 150 : (isDesert ? 120 : 100);
       const comboBonus = Math.min(combo * 20, 200);
       const earned = baseEarned + comboBonus;
-      score += earned;
+      
+      if (currentMode !== 'beginner') {
+        score += earned;
+        document.getElementById('score').innerText = score;
+      }
 
-      titleEl.innerText = `⭕ 正解！ (+${earned}pt)`;
+      titleEl.innerText = currentMode === 'beginner' ? `⭕ 正解！` : `⭕ 正解！ (+${earned}pt)`;
       titleEl.style.color = '#28a745';
       textEl.innerText = correctReason;
 
       updateComboUI();
-      document.getElementById('score').innerText = score;
       setTimeout(generateQuestion, 1500);
     } else {
       handleMistake("❌ 不正解…");
