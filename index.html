@@ -568,7 +568,8 @@
   </div>
 </div>
 
-<!-- 同じフォルダにある bubu.mp3 を再生 -->
+<!-- 同じフォルダにある音声ファイルを指定 -->
+<audio id="correct-audio" src="correct.mp3" preload="auto"></audio>
 <audio id="bubu-audio" src="bubu.mp3" preload="auto"></audio>
 
 <script>
@@ -589,56 +590,27 @@
   let timeLeft = currentMaxTime;
   let timerInterval = null;
 
-  let audioCtx = null;
-  function initAudio() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-  }
-
   function playSound(type) {
     if (type === 'incorrect') {
-      // 同じフォルダの bubu.mp3 を再生
       const audioEl = document.getElementById('bubu-audio');
       if (audioEl) {
         audioEl.currentTime = 0;
         audioEl.play().catch(e => {
-          console.log("音声の再生に失敗しました:", e);
+          console.log("不正解音声の再生に失敗しました:", e);
         });
       }
       return;
     }
 
-    // 正解時のピコン♪音
-    initAudio();
-    if (!audioCtx) return;
-    const now = audioCtx.currentTime;
-
     if (type === 'correct') {
-      const osc1 = audioCtx.createOscillator();
-      const osc2 = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc1.type = 'sine';
-      osc2.type = 'sine';
-
-      osc1.frequency.setValueAtTime(1318.51, now);
-      osc2.frequency.setValueAtTime(1046.50, now + 0.15);
-
-      gain.gain.setValueAtTime(0.3, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-
-      osc1.connect(gain);
-      osc2.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc1.start(now);
-      osc1.stop(now + 0.15);
-      osc2.start(now + 0.15);
-      osc2.stop(now + 0.6);
+      const audioEl = document.getElementById('correct-audio');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(e => {
+          console.log("正解音声の再生に失敗しました:", e);
+        });
+      }
+      return;
     }
   }
 
@@ -788,7 +760,6 @@
   }
 
   function showModeSelect() {
-    initAudio();
     loadAllRankings();
     document.getElementById('screen-title').style.display = 'none';
     document.getElementById('screen-result').style.display = 'none';
@@ -808,7 +779,6 @@
   }
 
   function startGame(mode) {
-    initAudio();
     currentMode = mode;
     score = 0;
     combo = 0;
