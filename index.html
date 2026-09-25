@@ -531,11 +531,11 @@
   <div class="info-panel">
     <div class="info-row">
       <span>【今日の日付】</span>
-      <span class="info-val" id="current-date">2026年9月25日</span>
+      <span class="info-val" id="current-date">--年--月--日</span>
     </div>
     <div class="info-row">
       <span>【商品の賞味期限】</span>
-      <span class="info-val exp-date" id="item-exp">2026年9月26日</span>
+      <span class="info-val exp-date" id="item-exp">--年--月--日</span>
     </div>
 
     <div class="price-card">
@@ -568,9 +568,13 @@
   </div>
 </div>
 
-<!-- 同じフォルダにある音声ファイルを指定 -->
+<!-- 音声ファイル用のタグ群 -->
 <audio id="correct-audio" src="correct.mp3" preload="auto"></audio>
 <audio id="bubu-audio" src="bubu.mp3" preload="auto"></audio>
+<audio id="gameover-audio" src="gameover.mp3" preload="auto"></audio>
+<audio id="nani-audio" src="nani.mp3" preload="auto"></audio>
+<audio id="special-correct-audio" src="special-correct.mp3" preload="auto"></audio>
+<audio id="rookie-combo-audio" src="rookie-combo.mp3" preload="auto"></audio>
 
 <script>
   let score = 0;
@@ -595,9 +599,7 @@
       const audioEl = document.getElementById('bubu-audio');
       if (audioEl) {
         audioEl.currentTime = 0;
-        audioEl.play().catch(e => {
-          console.log("不正解音声の再生に失敗しました:", e);
-        });
+        audioEl.play().catch(e => { console.log(e); });
       }
       return;
     }
@@ -606,9 +608,43 @@
       const audioEl = document.getElementById('correct-audio');
       if (audioEl) {
         audioEl.currentTime = 0;
-        audioEl.play().catch(e => {
-          console.log("正解音声の再生に失敗しました:", e);
-        });
+        audioEl.play().catch(e => { console.log(e); });
+      }
+      return;
+    }
+
+    if (type === 'special-correct') {
+      const audioEl = document.getElementById('special-correct-audio');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(e => { console.log(e); });
+      }
+      return;
+    }
+
+    if (type === 'rookie-combo') {
+      const audioEl = document.getElementById('rookie-combo-audio');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(e => { console.log(e); });
+      }
+      return;
+    }
+
+    if (type === 'gameover') {
+      const audioEl = document.getElementById('gameover-audio');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(e => { console.log(e); });
+      }
+      return;
+    }
+
+    if (type === 'nani') {
+      const audioEl = document.getElementById('nani-audio');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(e => { console.log(e); });
       }
       return;
     }
@@ -637,7 +673,7 @@
     { name: "LS マヨネーズ 500g", price: 248, rules: [30], isDesert: false, isLongTerm: true }
   ];
 
-  const baseToday = new Date(2026, 8, 25);
+  const baseToday = new Date();
 
   function formatDate(date) {
     const y = date.getFullYear();
@@ -835,6 +871,8 @@
       saveScore(currentMode, score);
     }
 
+    playSound('gameover');
+
     document.getElementById('score-board').style.display = 'none';
 
     document.getElementById('final-score-display').innerText = `${score} pt`;
@@ -994,9 +1032,22 @@
     const textEl = document.getElementById('result-text');
     
     if (userChoice === correctState) {
-      playSound('correct');
       combo++;
       if (combo > maxCombo) maxCombo = combo;
+
+      if (currentMode === 'veteran' && combo > 0 && (combo % 3 === 0)) {
+        playSound('special-correct');
+      } else if (currentMode === 'rookie' && combo > 0 && (combo % 3 === 0)) {
+        playSound('rookie-combo');
+      } else {
+        playSound('correct');
+      }
+
+      if (userChoice === 'MISSED') {
+        setTimeout(() => {
+          playSound('nani');
+        }, 400);
+      }
       
       const baseEarned = isLongTermItem ? 150 : (isDesert ? 120 : 100);
       const comboBonus = Math.min(combo * 20, 200);
