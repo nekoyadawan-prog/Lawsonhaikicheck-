@@ -65,7 +65,6 @@
       transition: width 0.1s linear;
     }
     
-    /* ド素人モード用の「簡単すぎ、もういい」ボタン（LINEブラウザ対応コンパクト化） */
     .exit-beginner-btn {
       background: linear-gradient(135deg, #ff4d4d, #cc0000);
       color: white;
@@ -113,7 +112,6 @@
       background: #e91e63;
     }
 
-    /* 情報表示パネル */
     .info-panel {
       background: #f8f9fa;
       border: 2px solid #e9ecef;
@@ -139,7 +137,6 @@
       font-weight: bold;
     }
     
-    /* プライスカード風デザイン */
     .price-card {
       background: #fff;
       border: 2px solid #333;
@@ -183,7 +180,6 @@
       font-size: 13px;
     }
 
-    /* 結果＆解説パネル */
     .explanation-box {
       min-height: 56px;
       max-height: 70px;
@@ -214,7 +210,6 @@
       -webkit-box-orient: vertical;
     }
 
-    /* 操作ボタンエリア */
     .btn-container {
       display: flex;
       flex-direction: column;
@@ -258,7 +253,6 @@
       display: none;
     }
 
-    /* オーバーレイ（フルスクリーン背景） */
     .overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -330,7 +324,6 @@
     .btn-rookie-mode { background: #28a745; }
     .btn-veteran-mode { background: #e91e63; }
 
-    /* リザルト画面専用スタイル */
     .result-score-box {
       background: rgba(0, 0, 0, 0.88);
       border: 2px solid #ffcc00;
@@ -349,7 +342,6 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
-    /* ぱっぱ掛け（総括コメント）ボックス */
     .commentary-card {
       background: rgba(255, 255, 255, 0.92);
       color: #111;
@@ -376,7 +368,6 @@
       color: #222;
     }
 
-    /* 難易度選択画面用のルール＆ランキングスタイル（縦に大きく配置） */
     .rule-box-compact {
       background: rgba(0, 0, 0, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.4);
@@ -400,7 +391,6 @@
       color: #eee;
     }
 
-    /* 上下配置のランキングスタック */
     .ranking-stack-container {
       display: flex;
       flex-direction: column;
@@ -466,18 +456,18 @@
 <body>
 
 <div class="game-card">
-  <!-- メインタイトル＆モード選択＆リザルト＆ランキング画面オーバーレイ -->
+  <!-- オーバーレイ画面 -->
   <div class="overlay" id="overlay-main">
     <div class="fullscreen-bg-box">
       <img src="title.png" alt="背景イラスト" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 300\'><rect width=\'300\' height=\'300\' fill=\'%230d1b2a\'/><circle cx=\'150\' cy=\'120\' r=\'50\' fill=\'%23ffdbac\'/><text x=\'150\' y=\'220\' font-size=\'20\' font-weight=\'bold\' fill=\'%23ff4d4d\' text-anchor=\'middle\'>廃棄チェッカー</text></svg>';">
     </div>
 
-    <!-- ステップ1: シンプルなタイトル画面 -->
+    <!-- タイトル画面 -->
     <div class="screen-container" id="screen-title" style="justify-content: flex-start; padding-top: 15px;">
       <button class="big-start-btn" onclick="showModeSelect()">ゲームスタート</button>
     </div>
 
-    <!-- ステップ1.5: 今回の結果発表画面（ぱっぱ掛け付き） -->
+    <!-- 結果発表画面 -->
     <div class="screen-container" id="screen-result" style="display: none; justify-content: flex-start; padding-top: 8px;">
       <h2 style="font-size: 15px; color: #ff4d4d; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">ゲームオーバー！</h2>
       
@@ -487,7 +477,6 @@
         <div style="font-size: 11px; color: #fff;" id="final-combo-display">最大コンボ: 0 COMBO</div>
       </div>
 
-      <!-- 辛口・ユーモアたっぷりのぱっぱ掛け（総括コメント） -->
       <div class="commentary-card" id="commentary-card">
         <div class="commentary-title" id="commentary-title">店長からの総括</div>
         <div class="commentary-text" id="commentary-text">コメント読み込み中...</div>
@@ -496,7 +485,7 @@
       <button class="big-start-btn" onclick="showModeSelectFromResult()" style="font-size: 15px; padding: 12px; margin-top: 2px;">ランキングを見る ➔</button>
     </div>
 
-    <!-- ステップ2: 難易度選択・ルール・ランキング画面 -->
+    <!-- 難易度選択＆ランキング画面 -->
     <div class="screen-container" id="screen-mode" style="display: none; justify-content: flex-start; padding-top: 4px; padding-bottom: 10px;">
       <h2 style="font-size: 14px; color: #ffcc00; margin: 0 0 4px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.9);">難易度を選んでスタート</h2>
       
@@ -506,7 +495,6 @@
         <button class="mode-btn btn-veteran-mode" onclick="startGame('veteran')">熟練<br><small style="font-size:7.5px; font-weight:normal;">(鬼速・高難度)</small></button>
       </div>
 
-      <!-- 詳しいルール説明 -->
       <div class="rule-box-compact">
         <h3>📖 遊び方・ルール</h3>
         <ul>
@@ -515,7 +503,6 @@
         </ul>
       </div>
 
-      <!-- 上段にルーキー、下段に熟練ランキング（縦方向スタック配置・文字拡大） -->
       <div class="ranking-stack-container">
         <div class="ranking-column">
           <h4>🏆 ルーキーランキング</h4>
@@ -581,6 +568,9 @@
   </div>
 </div>
 
+<!-- 同じフォルダにある bubu.mp3 を再生 -->
+<audio id="bubu-audio" src="bubu.mp3" preload="auto"></audio>
+
 <script>
   let score = 0;
   let combo = 0;
@@ -604,9 +594,26 @@
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
   }
 
   function playSound(type) {
+    if (type === 'incorrect') {
+      // 同じフォルダの bubu.mp3 を再生
+      const audioEl = document.getElementById('bubu-audio');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(e => {
+          console.log("音声の再生に失敗しました:", e);
+        });
+      }
+      return;
+    }
+
+    // 正解時のピコン♪音
+    initAudio();
     if (!audioCtx) return;
     const now = audioCtx.currentTime;
 
@@ -632,22 +639,6 @@
       osc1.stop(now + 0.15);
       osc2.start(now + 0.15);
       osc2.stop(now + 0.6);
-
-    } else if (type === 'incorrect') {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(150, now);
-
-      gain.gain.setValueAtTime(0.3, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.4);
     }
   }
 
@@ -817,6 +808,7 @@
   }
 
   function startGame(mode) {
+    initAudio();
     currentMode = mode;
     score = 0;
     combo = 0;
@@ -1012,7 +1004,7 @@
 
     titleEl.innerText = customTitle || "❌ 不正解…";
     titleEl.style.color = '#dc3545';
-    textEst = textEl.innerText = correctReason;
+    textEl.innerText = correctReason;
 
     updateComboUI();
 
